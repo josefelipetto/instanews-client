@@ -47,7 +47,7 @@ export default {
     },
     async fetchNews(){
 
-      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
+      let url = 'http://localhost:3001/';
 
       const breakingNews = await this.$axios.$get(url + "news/breaking");
 

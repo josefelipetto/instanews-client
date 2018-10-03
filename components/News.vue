@@ -48,31 +48,45 @@ export default{
     },
     methods: {
         async fetchNews() {
-
+            
+            let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
+           
             let news = [];
 
-            let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
+            let url = 'http://localhost:3001/';
 
-            const categories = await this.$axios.$get(url + 'categories')
-
+            const categories = await this.$axios.$get(url + 'categories',{
+                headers: {
+                    Authorization : token
+                }
+            })
+            
             categories.forEach(category => {
                 this.$axios
-                    .$get(url + "news/category/" + category.idcategories)
-                    .then(response => {
+                    .$get(url + "news/category/" + category.id,{
                         
+                        headers : {
+                            Authorization : token
+                        }
+                    })
+                    .then(response => {
+
                         response.articles.forEach(el => {
                             el.date = moment(el.date).fromNow()
                         })
 
                         news.push({
+
                             category:{
-                                id: category.idcategories,
+                                id: category.id,
                                 name: category.name
                             },
+
                             articles: response.articles
                         });        
                     });
             });
+
             this.tabs = news
 
         }

@@ -20,6 +20,11 @@ export default {
     Logo,
     BreakingNews,
     News
+  },
+  head(){
+    return {
+      title: 'Página principal - InstaNews'
+    }
   }
 }
 </script>

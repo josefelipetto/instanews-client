@@ -47,6 +47,11 @@ export default {
       show: true
     }
   },
+  head(){
+    return {
+      title: 'Registre-se - InstaNews'
+    }
+  },
   methods: {
     onSubmit (evt) {
       evt.preventDefault();
@@ -61,6 +66,8 @@ export default {
             .then(response => {
                 console.log(response);
             })
+
+            this.$toast.success('Usuário criado com sucesso');
 
             this.$router.push('/')
         }

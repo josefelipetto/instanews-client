@@ -42,8 +42,15 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    // '@nuxtjs/auth',
+    '@nuxtjs/toast',
+    
   ],
+
+  toast: {
+    position: 'top-center'
+  },
   /*
   ** Axios module configuration
   */
@@ -51,25 +58,6 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL: 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/'
     baseURL: 'http://localhost:3001/'
-  },
-
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: 'login', method: 'post', propertyName: 'data.token'
-          },
-          user : {
-            url: 'user', method : 'get', propertyName: 'data'
-          },
-          news : {
-            url : 'news', method : 'get'
-          },
-          logout: false
-        }
-      }
-    }
   },
 
   /*
