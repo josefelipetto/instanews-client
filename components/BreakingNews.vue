@@ -17,8 +17,12 @@
                         :key="article.idnews"
                         :caption="article.title"
                         :img-src="article.thumbnail"
-                        :src="article.url"
-      > </b-carousel-slide>
+                        :href="article.url"
+        
+
+      > 
+      
+      </b-carousel-slide>
 
     </b-carousel>
 
