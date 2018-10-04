@@ -16,8 +16,7 @@
       <b-carousel-slide v-for="article in news" 
                         :key="article.idnews"
                         :caption="article.title"
-                        :text="article.description"
-                        img-src="https://picsum.photos/1024/480/?image=52"
+                        :img-src="article.thumbnail"
                         :src="article.url"
       > </b-carousel-slide>
 
@@ -47,7 +46,7 @@ export default {
     },
     async fetchNews(){
 
-      let url = 'http://localhost:3001/';
+      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
 
       const breakingNews = await this.$axios.$get(url + "news/breaking");
 

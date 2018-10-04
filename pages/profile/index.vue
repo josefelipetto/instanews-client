@@ -55,7 +55,7 @@ export default{
       
       let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
 
-      let url = 'http://localhost:3001/';
+      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
 
       const user = await this.$axios.$get(url + 'users',{
         headers: {
@@ -90,7 +90,7 @@ export default{
       console.log('aaa')
       let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
 
-      let url = 'http://localhost:3001/';
+      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
       
       let response = await this.$axios.$post(url + "categories", {
         categories : this.selected

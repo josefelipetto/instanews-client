@@ -56,8 +56,8 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    // baseURL: 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/'
-    baseURL: 'http://localhost:3001/'
+     baseURL: 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/'
+    //baseURL: 'http://localhost:3001/'
   },
 
   /*

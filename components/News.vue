@@ -6,7 +6,7 @@
                 <b-row>
                     
                     <b-card v-for="(article,key) in tab.articles" 
-                            img-src="https://picsum.photos/600/300/?image=25"
+                            img-src=""
                             :key="key"
                             :title="article.Title"
                             img-alt="Image"
@@ -53,7 +53,7 @@ export default{
            
             let news = [];
 
-            let url = 'http://localhost:3001/';
+            let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
 
             const categories = await this.$axios.$get(url + 'categories',{
                 headers: {
@@ -72,7 +72,7 @@ export default{
                     .then(response => {
 
                         response.articles.forEach(el => {
-                            el.date = moment(el.date).fromNow()
+                            el.date = moment(el.date).startOf('day').fromNow()
                         })
 
                         news.push({
