@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div >
     <b-carousel id="carousel1"
-                style="text-shadow: 1px 1px 2px #333;"
+                style="text-shadow: 1px 1px 2px #333; height: 480px;"
                 controls
                 indicators
                 background="#ababab"
@@ -14,10 +14,10 @@
     >
 
       <b-carousel-slide v-for="article in news" 
-                        :key="article.idnews"
-                        :caption="article.title"
-                        :img-src="article.thumbnail"
-                        :href="article.url"
+                        :key="article._source.idnews"
+                        :caption="article._source.title"
+                        :img-src="article._source.thumbnail ? article._source.thumbnail:''"
+                        :href="article._source.url"
         
 
       > 
@@ -52,9 +52,9 @@ export default {
 
       let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
 
-      const breakingNews = await this.$axios.$get(url + "news/breaking");
-
-      this.news = breakingNews.articles;
+      const breakingNews = await this.$axios.$get(url + "news/v2/breaking");
+     
+      this.news =  breakingNews.articles; 
     }
   }
 }

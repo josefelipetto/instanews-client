@@ -8,7 +8,7 @@
                     <b-card v-for="(article,key) in tab.articles" 
                             img-src=""
                             :key="key"
-                            :title="article.Title"
+                            :title="article._source.title"
                             img-alt="Image"
                             img-top
                             tag="article"
@@ -16,12 +16,12 @@
                             class="mb-2"
                     >
                         <p class="card-text">
-                            {{ article.description.substr(1,200).trim().slice(0,-3) + '...' }}
+                            {{ article._source.description.substr(1,200).trim().slice(0,-3) + '...' }}
                         </p>
 
-                        <b-button :href="article.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
+                        <b-button :href="article._source.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
                         <div slot="footer">
-                            <small class="text-muted">{{ article.date }}</small>
+                            <small class="text-muted">{{ article._source.date }}</small>
                         </div>
                     </b-card>
                 </b-row>
@@ -63,7 +63,7 @@ export default{
             
             categories.forEach(category => {
                 this.$axios
-                    .$get(url + "news/category/" + category.id,{
+                    .$get(url + "news/v2/category/" + category.id,{
                         
                         headers : {
                             Authorization : token
@@ -74,7 +74,7 @@ export default{
                         response.articles.forEach(el => {
                             el.date = moment(el.date).startOf('day').fromNow()
                         })
-
+                        console.log(response)
                         news.push({
 
                             category:{
@@ -83,6 +83,7 @@ export default{
                             },
 
                             articles: response.articles
+                             
                         });        
                     });
             });
