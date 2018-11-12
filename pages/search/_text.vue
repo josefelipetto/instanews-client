@@ -6,8 +6,7 @@
         <br>
         <b-row>
 
-            <b-card v-for="(article,key) in news.articles" 
-                    img-src=""
+            <b-card v-for="(article,key) in news.articles"
                     :key="key"
                     :title="article.Title"
                     img-alt="Image"
