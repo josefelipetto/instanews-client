@@ -8,7 +8,7 @@
 
             <b-card v-for="(article,key) in news.articles"
                     :key="key"
-                    :title="article.Title"
+                    :title="article._source.title"
                     img-alt="Image"
                     img-top
                     tag="article"
@@ -16,12 +16,12 @@
                     class="mb-2"
         >
             <p class="card-text">
-                {{ article.description.substr(0,200).trim().slice(0,-3) + '...' }}
+                {{ article._source.description.substr(0,200).trim().slice(0,-3) + '...' }}
             </p>
 
-            <b-button :href="article.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
+            <b-button :href="article._source.newsurl" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
             <div slot="footer">
-                <small class="text-muted">{{ article.date }}</small>
+                <small class="text-muted">{{ article._source.date }}</small>
             </div>
         </b-card>
             
@@ -48,8 +48,17 @@ export default {
   },
     
    methods:{
+
        async getNews(){
+
             this.news = await this.$axios.$get("news/v2/like/" + this.text);
+
+            this.news.forEach(function(el) {
+
+                el._source.date = moment(el._source.date).format('MMMM Do YYYY, h:mm:ss a');
+
+            })
+
        }
    }
 }

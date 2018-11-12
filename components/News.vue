@@ -19,7 +19,7 @@
                             {{ article._source.description.substr(0,200).trim().slice(0,-3) + '...' }}
                         </p>
 
-                        <b-button :href="article._source.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
+                        <b-button :href="article._source.newsurl" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
                         <div slot="footer">
                             <small class="text-muted">{{ article._source.date }}</small>
                         </div>
