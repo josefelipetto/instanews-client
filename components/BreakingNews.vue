@@ -12,17 +12,16 @@
                 @sliding-start="onSlideStart"
                 @sliding-end="onSlideEnd"
     >
+      <b-link v-for="(article,key) in news" :href="article._source.url" :key="key">
+        <b-carousel-slide :key="article._source.idnews"
+                          :img-src="article._source.thumbnail"
+                          style="max-width:1110px;max-height:488px;width: auto;height: auto;"
 
-      <b-carousel-slide v-for="article in news" 
-                        :key="article._source.idnews"
-                        :caption="article._source.title"
-                        :img-src="article._source.thumbnail ? article._source.thumbnail:''"
-                        :href="article._source.url"
-        
+        >
+            {{ article._source.title }}
 
-      > 
-      
-      </b-carousel-slide>
+        </b-carousel-slide>
+      </b-link>
 
     </b-carousel>
 
@@ -30,7 +29,9 @@
 </template>
 
 <script>
+
 export default {
+
   data () {
     return {
       slide: 0,
@@ -50,11 +51,19 @@ export default {
     },
     async fetchNews(){
 
-      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
-
-      const breakingNews = await this.$axios.$get(url + "news/v2/breaking");
+      const breakingNews = await this.$axios.$get("news/v2/breaking");
      
-      this.news =  breakingNews.articles; 
+      this.news =  breakingNews.articles;
+
+      this.news.forEach(function(element) {
+        element._source.thumbnail = element._source.thumbnail ? (element._source.thumbnail === 'https://picsum.photos/600/300/?image=25' ? 'https://socialmediaweek.org/wp-content/blogs.dir/1/files/breaking-news-feature.jpg' : element._source.thumbnail) : 'https://socialmediaweek.org/wp-content/blogs.dir/1/files/breaking-news-feature.jpg'
+        if(element._source.thumbnail[element._source.thumbnail.length -1] === '"')
+        {
+          element._source.thumbnail = element._source.thumbnail.substr(0,element._source.thumbnail.length -1 );
+        }
+
+      })
+
     }
   }
 }

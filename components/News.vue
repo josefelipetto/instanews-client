@@ -15,8 +15,8 @@
                             style="max-width: 20rem;margin-left: 40px; "
                             class="mb-2"
                     >
-                        <p class="card-text">
-                            {{ article._source.description.substr(1,200).trim().slice(0,-3) + '...' }}
+                        <p class="card-text" v-if="article._source.description != null">
+                            {{ article._source.description.substr(0,200).trim().slice(0,-3) + '...' }}
                         </p>
 
                         <b-button :href="article._source.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
@@ -53,9 +53,7 @@ export default{
            
             let news = [];
 
-            let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
-
-            const categories = await this.$axios.$get(url + 'categories',{
+            const categories = await this.$axios.$get('categories',{
                 headers: {
                     Authorization : token
                 }
@@ -63,7 +61,7 @@ export default{
             
             categories.forEach(category => {
                 this.$axios
-                    .$get(url + "news/v2/category/" + category.id,{
+                    .$get("news/v2/category/" + category.id,{
                         
                         headers : {
                             Authorization : token
@@ -72,9 +70,10 @@ export default{
                     .then(response => {
 
                         response.articles.forEach(el => {
-                            el.date = moment(el.date).startOf('day').fromNow()
+                            el._source.date = moment(el._source.date).format('MMMM Do YYYY, h:mm:ss a');
+                            el._source.description = el._source.description !== "undefined" ? el._source.description : null;
                         })
-                        console.log(response)
+
                         news.push({
 
                             category:{

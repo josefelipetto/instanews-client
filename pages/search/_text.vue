@@ -17,7 +17,7 @@
                     class="mb-2"
         >
             <p class="card-text">
-                {{ article.description.substr(1,200).trim().slice(0,-3) + '...' }}
+                {{ article.description.substr(0,200).trim().slice(0,-3) + '...' }}
             </p>
 
             <b-button :href="article.url" variant="outline-success" style="margin-left:80px;">Ir a notícia</b-button>
@@ -50,14 +50,7 @@ export default {
     
    methods:{
        async getNews(){
-            let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
-
-            let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
-            
-            const news = await this.$axios.$get(url + "news/like/" + this.text);
-
-            console.log(news)
-            this.news = news;
+            this.news = await this.$axios.$get("news/v2/like/" + this.text);
        }
    }
 }

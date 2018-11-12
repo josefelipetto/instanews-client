@@ -11,12 +11,11 @@
             <b-navbar-nav class="ml-auto">
 
             <b-nav-form>
-                <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Buscar" v-model="text1"/>
+                <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Buscar" v-model="searchQuery"/>
                 <b-button size="sm" class="my-2 my-sm-0" @click="search">Buscar</b-button>
                 
             </b-nav-form>
 
-            {{text}}
             <b-nav-item-dropdown right>
                 <!-- Using button-content slot -->
                 <template slot="button-content">
@@ -41,12 +40,12 @@
 export default{
     data(){
         return {
-            text1 : ''
+            searchQuery : ''
         }
     },
     methods:{
         search(){
-            this.$router.push('/search/' + this.text1)
+            this.$router.push('/search/' + this.searchQuery)
         }
     }
 }
