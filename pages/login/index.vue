@@ -3,7 +3,7 @@
          <div>
              
            <Notification :message="error" v-if="error" />
-            <b-form @submit="onSubmit" v-if="show" >
+            <b-form v-if="show" >
                 <b-form-group id="email"
                                 label="Endereço de e-mail:"
                                 label-for="email"
@@ -16,7 +16,7 @@
                     </b-form-input>
                 </b-form-group>
                 
-                <b-button type="submit" variant="primary">Login</b-button>
+                <b-button type="button" variant="primary" @click="postLogin">Login</b-button>
             </b-form>
         </div>
     </b-container>
@@ -24,18 +24,25 @@
 
 <script>
 import Notification from '~/components/Notification';
+const Cookie = process.client ? require('js-cookie') : undefined;
 
 export default {
+
+  middleware : 'notAuthenticated',
+
   components: {
       Notification,
   },
+
   data () {
     return {
       
       form: {
         email: '',
       },
+
       showError : false,
+
       error : null,
       
       show: true
@@ -47,37 +54,23 @@ export default {
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault();
-      this.login();
-    },
-    async login(){
-        try
-        {
-            await this.$auth.loginWith('local',{
-                data: {
-                    email: this.form.email
-                }
-            })
-            .then(response => {
-                console.log(response);
-            })
+    async postLogin() {
+      await this.$axios.post('login', {
+        'email' : this.form.email
+      })
+        .then((response) => {
 
-            if(this.$auth.loggedIn)
-            {
-                this.$toast.success('Sucesso')
-            }
-            else
-            {
-                this.$toast.error('Erro')
-            }
+          const auth = {
+            accessToken : response.data.token
+          }
 
-            this.$router.push('/')
-        }
-        catch(e)
-        {
-            this.error = 'Ocorreu algum erro ao processar sua requisição. '
-        }
+          this.$store.commit('setAuth',auth);
+
+          Cookie.set('auth',auth);
+
+          this.$router.push('/');
+
+        })
     }
   }
 }

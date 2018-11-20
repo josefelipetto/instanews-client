@@ -4,8 +4,8 @@
             <b-tab v-for="tab in tabs" :title="tab.category.name" :key="tab.category.id" >
                 <br>
                 <b-row>
-                    
-                    <b-card v-for="(article,key) in tab.articles" 
+
+                    <b-card v-for="(article,key) in tab.articles"
                             img-src=""
                             :key="key"
                             :title="article._source.title"
@@ -48,9 +48,9 @@ export default{
     },
     methods: {
         async fetchNews() {
-            
+
             let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
-           
+
             let news = [];
 
             const categories = await this.$axios.$get('categories',{
@@ -58,11 +58,11 @@ export default{
                     Authorization : token
                 }
             })
-            
+            console.log(categories);
             categories.forEach(category => {
                 this.$axios
                     .$get("news/v2/category/" + category.id,{
-                        
+
                         headers : {
                             Authorization : token
                         }
@@ -82,8 +82,8 @@ export default{
                             },
 
                             articles: response.articles
-                             
-                        });        
+
+                        });
                     });
             });
 

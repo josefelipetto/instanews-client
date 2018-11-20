@@ -26,7 +26,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [ 
+  css: [
   ],
 
   /*
@@ -45,7 +45,7 @@ module.exports = {
     'bootstrap-vue/nuxt',
     // '@nuxtjs/auth',
     '@nuxtjs/toast',
-    
+
   ],
 
   toast: {
@@ -56,7 +56,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-     baseURL: 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/'
+     baseURL: 'http://ec2-18-231-179-106.sa-east-1.compute.amazonaws.com/'
     //baseURL: 'http://localhost:3001/'
   },
 
@@ -68,7 +68,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   }
 }

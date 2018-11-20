@@ -24,13 +24,14 @@
                 <small class="text-muted">{{ article._source.date }}</small>
             </div>
         </b-card>
-            
+
         </b-row>
     </b-container>
 </template>
 
 <script>
 export default {
+
     data(){
         return {
             text: '',
@@ -41,12 +42,13 @@ export default {
         this.getNews()
     },
     asyncData ({ params }) {
+
     // called every time before loading the component
     return {
       text: params.text
     }
   },
-    
+
    methods:{
 
        async getNews(){
