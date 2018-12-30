@@ -51,14 +51,19 @@ export default {
     },
     async fetchNews(){
 
+      let breakingNewsBanner = 'https://socialmediaweek.org/wp-content/blogs.dir/1/files/breaking-news-feature.jpg'
+
       const breakingNews = await this.$axios.$get("news/v2/breaking");
-     
+
       this.news =  breakingNews.articles;
 
-      this.news.forEach(function(element) {
-        element._source.thumbnail = element._source.thumbnail ? (element._source.thumbnail === 'https://picsum.photos/600/300/?image=25' ? 'https://socialmediaweek.org/wp-content/blogs.dir/1/files/breaking-news-feature.jpg' : element._source.thumbnail) : 'https://socialmediaweek.org/wp-content/blogs.dir/1/files/breaking-news-feature.jpg'
-        if(element._source.thumbnail[element._source.thumbnail.length -1] === '"')
-        {
+      this.news.forEach(element => {
+
+        element._source.thumbnail = element._source.thumbnail ?
+          (element._source.thumbnail === 'https://picsum.photos/600/300/?image=25' ? breakingNewsBanner : element._source.thumbnail)
+          : breakingNewsBanner
+
+        if(element._source.thumbnail[element._source.thumbnail.length -1] === '"') {
           element._source.thumbnail = element._source.thumbnail.substr(0,element._source.thumbnail.length -1 );
         }
 

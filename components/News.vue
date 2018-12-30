@@ -49,32 +49,28 @@ export default{
     methods: {
         async fetchNews() {
 
-            let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
-
-            let news = [];
-
             const categories = await this.$axios.$get('categories',{
                 headers: {
                     Authorization : token
                 }
             })
-            console.log(categories);
+
             categories.forEach(category => {
                 this.$axios
                     .$get("news/v2/category/" + category.id,{
 
                         headers : {
-                            Authorization : token
+                            Authorization : this.$store.auth.accessToken
                         }
                     })
                     .then(response => {
 
-                        response.articles.forEach(el => {
-                            el._source.date = moment(el._source.date).format('MMMM Do YYYY, h:mm:ss a');
-                            el._source.description = el._source.description !== "undefined" ? el._source.description : null;
+                        response.articles.forEach(article => {
+                            article._source.date = moment(article._source.date).format('MMMM Do YYYY, h:mm:ss a');
+                            article._source.description = article._source.description !== "undefined" ? article._source.description : null;
                         })
 
-                        news.push({
+                      this.tabs.push({
 
                             category:{
                                 id: category.id,
@@ -86,8 +82,6 @@ export default{
                         });
                     });
             });
-
-            this.tabs = news
 
         }
     }

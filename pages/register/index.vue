@@ -1,10 +1,10 @@
 <template>
     <b-container>
          <div>
-             
+
            <Notification :message="error" v-if="error" />
-            <b-form @submit="onSubmit" v-if="show">
-            
+            <b-form @submit="onSubmit" v-if="show" v-on:submit.prevent>
+
             <b-form-group id="email"
                             label="Endereço de e-mail:"
                             label-for="email"
@@ -16,9 +16,9 @@
                             placeholder="johndoe@example.com">
                 </b-form-input>
             </b-form-group>
-            
-            <b-button type="submit" variant="primary">Registrar</b-button>
-            
+
+            <b-button type="button" variant="primary" @click="submit">Registrar</b-button>
+
             <p style="margin-top: 20px">
                 Already got an account? <nuxt-link to="/login">Login</nuxt-link>
             </p>
@@ -37,13 +37,13 @@ export default {
   },
   data () {
     return {
-      
+
       form: {
         email: '',
       },
       showError : false,
       error : null,
-      
+
       show: true
     }
   },
@@ -53,28 +53,22 @@ export default {
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault();
+    submit () {
       this.register();
     },
-    async register(){
-        try
-        {
-            await this.$axios.$post('users',{
-                email: this.form.email
-            })
-            .then(response => {
-                console.log(response);
-            })
+    register(){
+      this.$axios.$post('users',{
+        email: this.form.email
+      })
+        .then(() => {
+          this.$toast.success('Usuário criado com sucesso');
 
-            this.$toast.success('Usuário criado com sucesso');
-
-            this.$router.push('/')
-        }
-        catch(e)
-        {
-            this.error = 'Ocorreu algum erro ao processar sua requisição. '
-        }
+          this.$router.push('/')
+        })
+        .catch(error => {
+          console.log(error)
+          this.$toast.error(error);
+        })
     }
   }
 }

@@ -42,7 +42,6 @@ export default {
         this.getNews()
     },
     asyncData ({ params }) {
-
     // called every time before loading the component
     return {
       text: params.text
@@ -51,17 +50,20 @@ export default {
 
    methods:{
 
-       async getNews(){
+     getNews(){
+       this.$axios.$get("news/v2/like/" + this.text)
+         .then(news => {
+           this.transform(news)
+         })
+     },
+     transform(news){
+       this.news = news
+       this.news.forEach(function(el) {
 
-            this.news = await this.$axios.$get("news/v2/like/" + this.text);
+         el._source.date = moment(el._source.date).format('MMMM Do YYYY, h:mm:ss a');
 
-            this.news.forEach(function(el) {
-
-                el._source.date = moment(el._source.date).format('MMMM Do YYYY, h:mm:ss a');
-
-            })
-
-       }
+       })
+     }
    }
 }
 </script>

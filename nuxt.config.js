@@ -56,8 +56,10 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-     baseURL: 'http://ec2-18-231-179-106.sa-east-1.compute.amazonaws.com/'
-    //baseURL: 'http://localhost:3001/'
+     baseURL: 'http://ec2-52-67-85-53.sa-east-1.compute.amazonaws.com/',
+     token: '62e7c1808232dea731a0c0d96669aba97bb5c779'
+
+//baseURL: 'http://localhost:3001/'
   },
 
   /*

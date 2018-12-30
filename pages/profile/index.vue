@@ -1,29 +1,29 @@
 <template>
 
   <b-container>
-    
+
     <b-row>
-      <strong> Email:  &nbsp; </strong> {{ user === null ? "" : user.email }} 
+      <strong> Email:  &nbsp; </strong> {{ user === null ? "" : user.email }}
     </b-row>
     <br>
-    
+
     <b-row>
-      
+
       <b-form-group label="Categorias">
         <b-form-checkbox-group id="cats" v-model="selected">
-          <b-form-checkbox v-for="(category,key) in categories" :key="key" :value="category.id"> 
+          <b-form-checkbox v-for="(category,key) in categories" :key="key" :value="category.id">
             {{category.name}}
           </b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-    
+
     </b-row>
 
     <br>
     <b-row>
       <b-button @click="save" variant="primary" style="margin-right:10px; margin-left:0"> Salvar </b-button>
     </b-row>
-    
+
   </b-container>
 
 
@@ -51,56 +51,60 @@ export default{
   },
   methods:{
 
-    async fetchUser(){
-      
-      let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
+    fetchUser(){
 
-      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
-
-      const user = await this.$axios.$get(url + 'users',{
+      this.$axios.$get('users',{
         headers: {
-          Authorization : token
+          Authorization : this.$store.auth.accessToken
         }
-      });
-
-      this.user = user[0];
-
-      let categories = await this.$axios.$get(url + 'categories');
-
-      let userCategories = await this.$axios.$get(url + "categories", {
-        
-        headers: {
-          Authorization : token
-        }
-      
-      });
-
-      let selected = [];
-
-      userCategories.forEach(element => {
-        selected.push(element.id)
-      });
-
-      this.categories = categories;
-
-      this.selected = selected;
+      })
+        .then(user => this.fetchCategories(user)[0])
+        .then(categories => this.fetchUserCategories(categories))
+        .then(userCategories => {
+          userCategories.forEach(category => {
+            this.selected.push(category.id)
+          });
+        })
+        .catch(error => {
+          this.failed(error)
+        })
     },
 
-    async save(){
-      console.log('aaa')
-      let token = '62e7c1808232dea731a0c0d96669aba97bb5c779';
+    fetchCategories(user) {
+      this.user = user
+      return this.$axios.get('categories')
+    },
+    fetchUserCategories(categories) {
 
-      let url = 'http://ec2-54-191-117-101.us-west-2.compute.amazonaws.com/';
-      
-      let response = await this.$axios.$post(url + "categories", {
-        categories : this.selected
-      }, {
-        headers : {
-          Authorization : token
+      this.categories = categories
+
+      return this.$axios.$get('categories', {
+        headers: {
+          Authorization : this.$store.auth.accessToken
         }
-      });
+      })
 
-      this.$toast.success(response.message);
+    },
+    save(){
+
+      let data = {
+        categories : this.selected
+      }
+
+      this.$axios.$post('categories', data, {
+        headers : {
+          Authorization : this.$store.auth.accessToken
+        }
+      })
+        .then(response => {
+          this.$toast.success(response.message);
+        })
+        .catch(error => {
+            this.failed(error)
+        })
+    },
+    failed(error) {
+      this.$toast.error(error)
     }
   }
 }
