@@ -54,8 +54,8 @@ export default {
     }
   },
   methods: {
-    async postLogin() {
-      await this.$axios.post('login', {
+    postLogin() {
+      this.$axios.post('login', {
         'email' : this.form.email
       })
         .then((response) => {
